@@ -312,6 +312,25 @@ class PHPExcel_Chart_DataSeries
 	}
 
 	/**
+     * Add plot colors
+     *
+     * @param string   $color Color
+     * @param null|int $index Index
+     *
+     * @return $this
+     */
+    public function addPlotColor($color, $index = null)
+    {
+        $color = $this->_processPlotColor($color);
+        if (is_null($index)) {
+            $this->_plotColors[] = $color;
+        } else {
+            $this->_plotColors[intval($index)] = $color;
+        }
+        return $this;
+    }
+
+	/**
      * Set plot colors
      *
      * @param array $colors Colors
@@ -319,7 +338,7 @@ class PHPExcel_Chart_DataSeries
      */
     public function setPlotColors(array $colors)
     {
-        $this->_plotColors = $colors;
+        $this->_plotColors = array_map(array($this, '_processPlotColor'), $colors);
         return $this;
     }
 
@@ -401,4 +420,15 @@ class PHPExcel_Chart_DataSeries
 		}
 	}
 
+
+    /**
+     * Process plot color
+     *
+     * @param string $color Color to process
+     * @return string
+     */
+	protected function _processPlotColor($color)
+    {
+        return str_replace('#', '' , $color);
+    }
 }
