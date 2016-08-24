@@ -1157,24 +1157,25 @@ class PHPExcel_Writer_Excel2007_Chart extends
           ($groupType == PHPExcel_Chart_DataSeries::TYPE_PIECHART_3D) ||
           ($groupType == PHPExcel_Chart_DataSeries::TYPE_DONUTCHART)
       ) {
+          foreach ($plotGroup->getPlotColors() as $idx => $color) {
+              $objWriter->startElement('c:dPt');
+              $objWriter->startElement('c:idx');
+              $objWriter->writeAttribute('val', $idx);
+              $objWriter->endElement();
 
-        $objWriter->startElement('c:dPt');
-        $objWriter->startElement('c:idx');
-        $objWriter->writeAttribute('val', 3);
-        $objWriter->endElement();
+              $objWriter->startElement('c:bubble3D');
+              $objWriter->writeAttribute('val', 0);
+              $objWriter->endElement();
 
-        $objWriter->startElement('c:bubble3D');
-        $objWriter->writeAttribute('val', 0);
-        $objWriter->endElement();
-
-        $objWriter->startElement('c:spPr');
-        $objWriter->startElement('a:solidFill');
-        $objWriter->startElement('a:srgbClr');
-        $objWriter->writeAttribute('val', 'FF9900');
-        $objWriter->endElement();
-        $objWriter->endElement();
-        $objWriter->endElement();
-        $objWriter->endElement();
+              $objWriter->startElement('c:spPr');
+              $objWriter->startElement('a:solidFill');
+              $objWriter->startElement('a:srgbClr');
+              $objWriter->writeAttribute('val', $color);
+              $objWriter->endElement();
+              $objWriter->endElement();
+              $objWriter->endElement();
+              $objWriter->endElement();
+          }
       }
 
       //	Labels
