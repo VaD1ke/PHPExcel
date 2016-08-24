@@ -1158,6 +1158,9 @@ class PHPExcel_Writer_Excel2007_Chart extends
           ($groupType == PHPExcel_Chart_DataSeries::TYPE_DONUTCHART)
       ) {
           foreach ($plotGroup->getPlotColors() as $idx => $color) {
+              if (!$color) {
+                  continue;
+              }
               $objWriter->startElement('c:dPt');
               $objWriter->startElement('c:idx');
               $objWriter->writeAttribute('val', $idx);
