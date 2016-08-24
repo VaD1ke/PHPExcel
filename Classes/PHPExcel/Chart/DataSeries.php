@@ -134,15 +134,27 @@ class PHPExcel_Chart_DataSeries
     private $plotValues = array();
 
     /**
+     * Plot colors
+     *
+     * @var array
+     */
+    private $plotColors = array();
+
+
+    /**
      * Create a new PHPExcel_Chart_DataSeries
      */
-    public function __construct($plotType = null, $plotGrouping = null, $plotOrder = array(), $plotLabel = array(), $plotCategory = array(), $plotValues = array(), $plotDirection = null, $smoothLine = null, $plotStyle = null)
-    {
+    public function __construct(
+        $plotType = null, $plotGrouping = null, $plotOrder = array(),
+        $plotLabel = array(), $plotCategory = array(), $plotValues = array(),
+        $plotDirection = null, $smoothLine = null, $plotStyle = null, $plotColors = array()
+    ) {
         $this->plotType = $plotType;
         $this->plotGrouping = $plotGrouping;
         $this->plotOrder = $plotOrder;
         $keys = array_keys($plotValues);
         $this->plotValues = $plotValues;
+        $this->plotColors = $plotColors;
         if ((count($plotLabel) == 0) || (is_null($plotLabel[$keys[0]]))) {
             $plotLabel[$keys[0]] = new PHPExcel_Chart_DataSeriesValues();
         }
@@ -309,6 +321,28 @@ class PHPExcel_Chart_DataSeries
     {
         $this->plotStyle = $plotStyle;
         return $this;
+    }
+
+    /**
+     * Set plot colors
+     *
+     * @param array $colors Colors
+     * @return $this
+     */
+    public function setPlotColors(array $colors)
+    {
+        $this->plotColors = $colors;
+        return $this;
+    }
+
+    /**
+     * Get plot colors
+     *
+     * @return array
+     */
+    public function getPlotColors()
+    {
+        return $this->plotColors;
     }
 
     /**
