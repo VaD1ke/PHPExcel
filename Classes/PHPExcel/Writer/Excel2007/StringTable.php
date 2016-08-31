@@ -35,6 +35,11 @@
  */
 class PHPExcel_Writer_Excel2007_StringTable extends PHPExcel_Writer_Excel2007_WriterPart
 {
+    /**
+     * Font size multiplier
+     */
+    const FONT_SIZE_MULTIPLIER = 100;
+
 	/**
 	 * Create worksheet stringtable
 	 *
@@ -265,6 +270,11 @@ class PHPExcel_Writer_Excel2007_StringTable extends PHPExcel_Writer_Excel2007_Wr
 					$objWriter->writeAttribute('u', $underlineType);
 					// Strikethrough
 					$objWriter->writeAttribute('strike', ($element->getFont()->getStrikethrough() ? 'sngStrike' : 'noStrike'));
+
+                    // Size
+                    if ($element->getFont()->getSize()) {
+                        $objWriter->writeAttribute('sz', $element->getFont()->getSize() * self::FONT_SIZE_MULTIPLIER);
+                    }
 
 					// rFont
 					$objWriter->startElement($prefix.'latin');

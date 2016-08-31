@@ -51,12 +51,24 @@ class PHPExcel_Chart_Title
 	private $_layout = null;
 
 	/**
+	 * Title font
+	 *
+	 * @var PHPExcel_Style_Font
+	 */
+	private $_font = null;
+
+	/**
 	 * Create a new PHPExcel_Chart_Title
 	 */
-	public function __construct($caption = null, PHPExcel_Chart_Layout $layout = null)
+	public function __construct($caption = null, PHPExcel_Chart_Layout $layout = null, PHPExcel_Style_Font $font = null)
 	{
+	    if (!$font) {
+	        $font = new PHPExcel_Style_Font();
+        }
+
 		$this->_caption = $caption;
-		$this->_layout = $layout;
+		$this->_layout  = $layout;
+        $this->_font    = $font;
 	}
 
 	/**
@@ -89,4 +101,14 @@ class PHPExcel_Chart_Title
 		return $this->_layout;
 	}
 
+	public function setFont(PHPExcel_Style_Font $font)
+    {
+        $this->_font = $font;
+        return $this;
+    }
+
+    public function getFont()
+    {
+        return $this->_font;
+    }
 }

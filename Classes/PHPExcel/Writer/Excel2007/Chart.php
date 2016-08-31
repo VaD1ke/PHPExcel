@@ -151,9 +151,18 @@ class PHPExcel_Writer_Excel2007_Chart extends
     if ((is_array($caption)) && (count($caption) > 0)) {
       $caption = $caption[0];
     }
+
+    $pRichText = new PHPExcel_RichText();
+    $pRichText->createTextRun($caption);
+    $elements = $pRichText->getRichTextElements();
+    foreach ($elements as $element) {
+        $element->setFont($title->getFont());
+    }
+
     $this->getParentWriter()
         ->getWriterPart('stringtable')
-        ->writeRichTextForCharts($objWriter, $caption, 'a');
+        ->writeRichTextForCharts($objWriter, $pRichText, 'a')
+    ;
 
     $objWriter->endElement();
     $objWriter->endElement();
