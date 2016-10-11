@@ -2394,14 +2394,19 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
     /**
      * Fill worksheet from values in array
      *
-     * @param array $source Source array
-     * @param mixed $nullValue Value in source array that stands for blank cell
-     * @param string $startCell Insert array starting from this cell address as the top left coordinate
-     * @param boolean $strictNullComparison Apply strict comparison when testing for null values in the array
+     * @param array       $source               Source array
+     * @param mixed       $nullValue            Value in source array that stands for blank cell
+     * @param string      $startCell            Insert array starting from this cell address as the top left coordinate
+     * @param boolean     $strictNullComparison Apply strict comparison when testing for null values in the array
+     * @param string|null $dataType             Data type
+     *
      * @throws PHPExcel_Exception
      * @return PHPExcel_Worksheet
      */
-    public function fromArray($source = null, $nullValue = null, $startCell = 'A1', $strictNullComparison = false) {
+    public function fromArray(
+        $source = null, $nullValue = null, $startCell = 'A1',
+        $strictNullComparison = false, $dataType = null
+    ) {
         if (is_array($source)) {
             //    Convert a 1-D array to 2-D (for ease of looping)
             if (!is_array(end($source))) {
@@ -2418,12 +2423,20 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
                     if ($strictNullComparison) {
                         if ($cellValue !== $nullValue) {
                             // Set cell value
-                            $this->getCell($currentColumn . $startRow)->setValue($cellValue);
+                            if ($dataType) {
+                                $this->getCell($currentColumn . $startRow)->setValueExplicit($cellValue, $dataType);
+                            } else {
+                                $this->getCell($currentColumn . $startRow)->setValue($cellValue);
+                            }
                         }
                     } else {
                         if ($cellValue != $nullValue) {
                             // Set cell value
-                            $this->getCell($currentColumn . $startRow)->setValue($cellValue);
+                            if ($dataType) {
+                                $this->getCell($currentColumn . $startRow)->setValueExplicit($cellValue, $dataType);
+                            } else {
+                                $this->getCell($currentColumn . $startRow)->setValue($cellValue);
+                            }
                         }
                     }
                     ++$currentColumn;
